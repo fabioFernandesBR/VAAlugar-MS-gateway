@@ -180,6 +180,23 @@ a resposta é do tipo:
   "usuario": 21994497881
 }
 
+## 4. Listagem de Reservas
+  4.1 Front End informa um usuario (representado por seu número de telefone), fazendo uma chamada POST à rota /listarreservas. Veja na seção abaixo como fazer a requisição.
+  4.2 Gateway faz uma chamada GET ao microsserviço de gestão de reservas (VAAlugar-MS-reservas), na rota /reservas-usuario, que deverá estar rodando na porta 5001. 
+  O retorno será uma lista de todas as reservas já feitas pelo usuário.
+  4.3 Gateway faz uma chamada GraphQL ao microsserviço de gestão de avaliações (VAAlugar-MS-avaliacoes), que deverá estar rodando na porta 5003, na rota /graphql.
+  O retorno será uma lista de todas as avaliações já feitas pelo usuário.
+  4.4 O VAAlugar-MS-reservas vai combinar estes 2 retornos, montando um JSON único contendo, para o usuário informado, todas as reservas já feitas e as respectivas avaliações, se realizadas.
+  4.5 Gateway retorna ao Front End o JSON com todas as reservas e avaliações relacionadas ao usuário informado.
+
+
+## 5. Registrar avaliação
+  5.1 Front End informa um usuario (representado por seu número de telefone),  um número de reserva, um número de canoa, uma nota (número entre 0 e 10) e um comentário sobre a experiência da locação da canoa, fazendo uma chamada POST à rota /avaliar. Veja na seção abaixo como fazer a requisição.
+  5.2 Gateway faz uma chamada POST ao microsserviço de gestão de avaliações (VAAlugar-MS-avaliacoes), que deverá estar rodando na porta 5003, na rota /criar.
+  5.3 VAAlugar-MS-avaliacoes registra as informações no banco de dados.
+  5.4 VAAlugar-MS-avaliacoes também conta o número de avaliações já registradas para a canoa informada e a médias dessas notas.
+  5.5 VAAlugar-MS-avaliacoes retorna a confirmação das informações persistidas no banco junto com a contagem e média de avaliações.
+  5.6 Gateway retorna essas informações ao Front End.
 
 
 
