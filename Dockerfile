@@ -1,5 +1,5 @@
 # Define a imagem base
-FROM python:3.9
+FROM python:3.12.4
 
 # Define o diretório de trabalho dentro do container
 WORKDIR /app
