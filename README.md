@@ -194,9 +194,10 @@ a resposta é do tipo:
   5.1 Front End informa um usuario (representado por seu número de telefone),  um número de reserva, um número de canoa, uma nota (número entre 0 e 10) e um comentário sobre a experiência da locação da canoa, fazendo uma chamada POST à rota /avaliar. Veja na seção abaixo como fazer a requisição.
   5.2 Gateway faz uma chamada POST ao microsserviço de gestão de avaliações (VAAlugar-MS-avaliacoes), que deverá estar rodando na porta 5003, na rota /criar.
   5.3 VAAlugar-MS-avaliacoes registra as informações no banco de dados.
-  5.4 VAAlugar-MS-avaliacoes também conta o número de avaliações já registradas para a canoa informada e a médias dessas notas.
+  5.4 VAAlugar-MS-avaliacoes também conta o número de avaliações já registradas para a canoa informada e a médias dessas notas (essa funcionalidade já está implementada no microsserviço)
   5.5 VAAlugar-MS-avaliacoes retorna a confirmação das informações persistidas no banco junto com a contagem e média de avaliações.
-  5.6 Gateway retorna essas informações ao Front End.
+  5.6 Gateway recebe estas informações e faz uma chamada PATCH para o microsserviço VAAlugar-MS-gerir_canoas_2, que estará rodando na porta 5002, informando id_canoa, nova_média e nova_quantidade. O VAAlugar-MS-gerir_canoas_2 vai atualizar as informações da canoa.
+  5.6 Gateway retorna as informações recebidas no passo 5.5 ao Front End.
 
 
 
