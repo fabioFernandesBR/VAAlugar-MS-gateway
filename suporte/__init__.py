@@ -2,18 +2,19 @@
 
 
 # Isso funcionava no VS Code
-MICROSERVICE_URLS = {
+'''MICROSERVICE_URLS = {
     'MS-Reservas': 'http://localhost:5001',
     'MS-Canoas': 'http://localhost:5002',
     'MS-Avaliacoes': 'http://localhost:5003'
-}
+}'''
 
 # Para rodar dentro da Docker (??):
-'''MICROSERVICE_URLS = {
-    'MS-Reservas': 'http://ms-reservas:5001',
-    'MS-Canoas': 'http://ms-canoas-2:5002',
-    'MS-Avaliacoes': 'http://ms-avaliacoes:5003'
-}'''
+MICROSERVICE_URLS = {
+    'MS-Reservas': 'http://VAAlugar-Reservas:5000',
+    'MS-Canoas': 'http://VAAlugar-Canoas:5000',
+    'MS-Avaliacoes': 'http://VAAlugar-Avaliacoes:5000'
+}
+
 
 
 
