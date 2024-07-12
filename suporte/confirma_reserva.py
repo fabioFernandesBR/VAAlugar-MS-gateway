@@ -13,7 +13,7 @@ def confirma_reserva(body):
     print(body)
     try:
         # Chamada ao microsserviço de reservas
-        url = 'http://localhost:5001/reserva'
+        url = f"{MICROSERVICE_URLS['MS-Reservas']}/reserva"
         payload = {
             'canoa': body.canoa,
             'usuario': body.usuario,

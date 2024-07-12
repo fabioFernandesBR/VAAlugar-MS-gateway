@@ -2,8 +2,8 @@ from pydantic import BaseModel
 from typing import List, Optional
 
 class CanoeQueryRequest(BaseModel):
-    local: Optional[str]
-    tipos: Optional[List[str]]
+    local: Optional[str] = None
+    tipos: Optional[List[str]] = None
 
 class Canoe(BaseModel):
     id: int

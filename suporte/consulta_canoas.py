@@ -25,9 +25,12 @@ def consulta_canoas(body):
       }
     }
     """
-    # Convertendo o corpo da requisição em um dicionário
-    variables = body.model_dump()
-    print(variables)
+    # Construindo o dicionário de variáveis para enviar na requisição
+    variables = {}
+    if body.local:
+        variables['local'] = body.local
+    if body.tipos:
+        variables['tipos'] = body.tipos
     
     # Construindo a URL do microsserviço
     url = f"{MICROSERVICE_URLS['MS-Canoas']}/graphql"

@@ -39,7 +39,7 @@ home_tag = Tag(name="Home", description="Redireciona para a documentação da AP
 canoa_tag = Tag(name="Canoas", description="Pesquisa e informações sobre canoas")
 previsao_tag = Tag(name="Previsão do Tempo", description="Previsão do Tempo")
 reserva_tag = Tag(name = "Gestão de Reservas", description = "Confirmação e busca de reservas")
-
+avaliacao_tag = Tag(name = "Gestão de Avaliações", description = "Gestão de Avaliações")
 
 @app.get('/', tags=[home_tag])
 def home():
@@ -95,9 +95,9 @@ def confirmacao_reserva(body: SchemaConfirmacaoReserva):
     
     
     
-## Listagem de Reservas
+## Listagem de Reservas por Usuario
 @app.post('/listarreservas', 
-          tags=[reserva_tag], 
+          tags=[avaliacao_tag], 
           responses={"200": ReservasUsuarioResponse, "400": ErrorResponse})
 def listar_reservas_usuario(body: SchemaUsuario):
     try:
@@ -111,7 +111,7 @@ def listar_reservas_usuario(body: SchemaUsuario):
 
 ## Postar avaliação
 @app.post('/avaliar', 
-          tags=[reserva_tag], 
+          tags=[avaliacao_tag], 
           responses={"200": AvaliacaoResponse, "400": ErrorResponse})
 def postar_avaliacao_reserva(body: AvaliacaoRequest):
     try:

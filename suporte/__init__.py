@@ -1,19 +1,25 @@
 ##
+import os
 
-
-# Isso funcionava no VS Code
-'''MICROSERVICE_URLS = {
-    'MS-Reservas': 'http://localhost:5001',
+MICROSERVICE_URLS_dev = {
     'MS-Canoas': 'http://localhost:5002',
-    'MS-Avaliacoes': 'http://localhost:5003'
-}'''
+    'MS-Reservas': 'http://localhost:5003',    
+    'MS-Avaliacoes': 'http://localhost:5004'
+}
 
-# Para rodar dentro da Docker (??):
-MICROSERVICE_URLS = {
-    'MS-Reservas': 'http://vaalugar-reservas:5000',
+MICROSERVICE_URLS_prod = {
     'MS-Canoas': 'http://vaalugar-canoas:5000',
+    'MS-Reservas': 'http://vaalugar-reservas:5000',
     'MS-Avaliacoes': 'http://vaalugar-avaliacoes:5000'
 }
+
+# Determine o modo de execução
+devmode = os.getenv('DEVMODE', 'False') == 'True'
+
+if devmode:
+    MICROSERVICE_URLS = MICROSERVICE_URLS_dev
+else:
+    MICROSERVICE_URLS = MICROSERVICE_URLS_prod
 
 
 

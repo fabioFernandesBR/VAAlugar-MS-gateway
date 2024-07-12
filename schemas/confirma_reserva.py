@@ -11,7 +11,7 @@ class SchemaConfirmacaoReserva(BaseModel):
     """
     usuario: str = "21999999999"
     canoa: int = 1
-    data: str = "01/05/2024" 
+    data: str = "01/05/2025" 
 
 
 class SchemaVisualizacaoReservaConfirmada(BaseModel):
@@ -21,5 +21,5 @@ class SchemaVisualizacaoReservaConfirmada(BaseModel):
     id_reserva: int = 1
     usuario: str = "21999999999"
     canoa: int = 1
-    data: str = "01/05/2024"
+    data: str = "01/05/2025"
     

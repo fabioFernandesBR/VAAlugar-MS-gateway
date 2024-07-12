@@ -53,7 +53,7 @@ def listar_reservas(body):
     # Chamada ao microsserviço de reservas
     reservas_url = f"{MICROSERVICE_URLS['MS-Reservas']}/reservas-usuario?telefone={usuario}"
     try:
-        response_reservas = requests.get(reservas_url)
+        response_reservas = requests.post(reservas_url, json={"usuario": usuario})
         response_reservas.raise_for_status()
         reservas = response_reservas.json()['reservas']
         print(reservas)
@@ -73,6 +73,7 @@ def listar_reservas(body):
         }
     }
     """ % usuario
+    print(query)
   
     try:
         response_avaliacoes = requests.post(graphql_url, json={'query': query})
