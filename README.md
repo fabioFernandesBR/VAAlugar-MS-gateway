@@ -4,7 +4,6 @@ Repositório do projeto de Microsserviço (MS) que faz a gestão de todas as req
 
 # Esquema simplificado do fluxo de informações entre Front End, Gateway e microsserviços / APIs externas.
 
-https://docs.google.com/presentation/d/12pvJZ2fYTtoTkcfPAXlJNbkrVcwEYzRnLBjh1y9hf24/edit#slide=id.p
 https://docs.google.com/presentation/d/e/2PACX-1vSfXcUSCZe_cCqlOBbNcvensXv6ysZqD_DIomZqSeXOKBunEWQ1YBIncFwzXu0T-Old4Ghmxlx8FQyX/pub?start=true&loop=false&delayms=60000
 
 ## 1. Pesquisa por canoas:
