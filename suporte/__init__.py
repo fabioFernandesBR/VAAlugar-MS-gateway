@@ -10,10 +10,11 @@
 
 # Para rodar dentro da Docker (??):
 MICROSERVICE_URLS = {
-    'MS-Reservas': 'http://VAAlugar-Reservas:5000',
-    'MS-Canoas': 'http://VAAlugar-Canoas:5000',
-    'MS-Avaliacoes': 'http://VAAlugar-Avaliacoes:5000'
+    'MS-Reservas': 'http://vaalugar-reservas:5000',
+    'MS-Canoas': 'http://vaalugar-canoas:5000',
+    'MS-Avaliacoes': 'http://vaalugar-avaliacoes:5000'
 }
+
 
 
 
