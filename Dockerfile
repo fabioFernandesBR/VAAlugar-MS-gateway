@@ -17,7 +17,7 @@ COPY . .
 ENV PYTHONUNBUFFERED=1
 
 # Exponha a porta que a aplicação vai rodar
-EXPOSE 5001
+EXPOSE 5000
 
 # Comando para rodar a aplicação
 CMD ["python", "app.py"]
