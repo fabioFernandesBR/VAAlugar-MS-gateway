@@ -1,14 +1,26 @@
 # VAAlugar-MS-gateway
-Repositório do projeto de Microsserviço (MS) que faz a gestão de todas as requisições do Front End e coordena a troca de informações entre outros microsserviços e APIs externas.
+Repositório do projeto de Microsserviço (MS) que faz a gestão de todas as requisições de algum Front End e coordena a troca de informações entre outros microsserviços e APIs externas.
 
+## Breve descrição do Projeto VA'Alugar:
+Um AirBNB para aluguel de canoas havaianas.
+O usuário pesquisa e reserva canoas disponíveis para locação nas praias, lagos, lagoas e rios. O usuário poderá fazer avaliação da canoa, postando uma nota e um texto.
+O proprietário da canoa aumenta sua renda por meio da locação.
+Nesta versão temos um serviço de previsão do tempo para os próximos 7 dias.
 
-# Esquema simplificado do fluxo de informações entre Front End, Gateway e microsserviços / APIs externas.
+# Esquema do fluxo de informações entre Front End, Gateway e microsserviços / APIs externas.
 
+## Arquitetura:
 https://docs.google.com/presentation/d/e/2PACX-1vSfXcUSCZe_cCqlOBbNcvensXv6ysZqD_DIomZqSeXOKBunEWQ1YBIncFwzXu0T-Old4Ghmxlx8FQyX/pub?start=true&loop=false&delayms=60000
+
+## Em quais portas os MS rodam:
+- GATEWAY: 5001
+- CANOAS: 5002
+- RESERVAS: 5003
+- AVALIACOES: 5004
 
 ## 1. Pesquisa por canoas:
   1.1 Front End informa local e tipo de canoa desejados, ambos opcionais, fazendo uma chamada POST à rota /consultacanoas. Local é string, tipo de canoa é lista de strings.Veja na seção abaixo como fazer a requisição.
-  1.2 Gateway faz uma chamada do tipo GraphQL para o MS VAAlugar-MS-canoas, na porta 5002.
+  1.2 Gateway faz uma chamada do tipo GraphQL para o MS VAAlugar-MS-canoas.
   1.3 VAAlugar-MS-canoas retorna, para o gateway, 0, 1 ou mais canoas.
   1.4 Gateway retorna ao Front End a lista de canoas disponíveis.
 
@@ -102,7 +114,8 @@ A chamada é um JSON com a seguinte estrutura:
   "estado": "string",
   "local": "string"
 }
-onde local é o município onde está a canoa escolhia, e estado é a unidade da federação onde está o município.
+onde local é o município onde está a canoa escolhia, e estado é a unidade da federação onde está o município. Usar a sigla do Estado, como por exemplo, "RJ", "ES", "MG", "BA".
+
 
 Exemplos:
 {
@@ -163,7 +176,7 @@ retorna:
 
 ## 3. Confirmação da Reserva
   3.1 Front End informa a canoa escolhida, o usuario (representado por seu número de telefone) e um texto referente à data da locação, fazendo uma chamada POST à rota /confirmareserva. Veja na seção abaixo como fazer a requisição.
-  3.2 Gateway faz uma chamada POST ao microsserviço de gestão de reservas (VAAlugar-MS-reservas), na rota /reserva, que deverá estar rodando na porta 5001.
+  3.2 Gateway faz uma chamada POST ao microsserviço de gestão de reservas (VAAlugar-MS-reservas), na rota /reserva.
   3.3 O VAAlugar-MS-reservas registra a reserva no banco de dados e retorna confirmação.
   3.4 Gateway retorna ao Front End a confirmação da reserva.
 
@@ -184,22 +197,108 @@ a resposta é do tipo:
 
 ## 4. Listagem de Reservas
   4.1 Front End informa um usuario (representado por seu número de telefone), fazendo uma chamada POST à rota /listarreservas. Veja na seção abaixo como fazer a requisição.
-  4.2 Gateway faz uma chamada GET ao microsserviço de gestão de reservas (VAAlugar-MS-reservas), na rota /reservas-usuario, que deverá estar rodando na porta 5001. 
+  4.2 Gateway faz uma chamada GET ao microsserviço de gestão de reservas (VAAlugar-MS-reservas), na rota /reservas-usuario. 
   O retorno será uma lista de todas as reservas já feitas pelo usuário.
-  4.3 Gateway faz uma chamada GraphQL ao microsserviço de gestão de avaliações (VAAlugar-MS-avaliacoes), que deverá estar rodando na porta 5003, na rota /graphql.
+  4.3 Gateway faz uma chamada GraphQL ao microsserviço de gestão de avaliações (VAAlugar-MS-avaliacoes), na rota /graphql.
   O retorno será uma lista de todas as avaliações já feitas pelo usuário.
   4.4 O VAAlugar-MS-reservas vai combinar estes 2 retornos, montando um JSON único contendo, para o usuário informado, todas as reservas já feitas e as respectivas avaliações, se realizadas.
   4.5 Gateway retorna ao Front End o JSON com todas as reservas e avaliações relacionadas ao usuário informado.
 
+### Como fazer a requisição POST à rota /listarreservas:
+A chamada JSON tem a seguinte estrutura:
+{
+  "idusuario": "string"
+}
+
+Por exemplo, 
+{
+  "idusuario": "21999991111"
+}
+retorna:
+{
+  "reservas": [
+    {
+      "canoa": 1,
+      "comentario": null,
+      "data": "13/07/24",
+      "id-reserva": 20,
+      "idpost": null,
+      "nota": null,
+      "usuario": "21999991111"
+    },
+    {
+      "canoa": 6,
+      "comentario": "Excelente! Lindo visual!",
+      "data": "14/07/2024",
+      "id-reserva": 21,
+      "idpost": 22,
+      "nota": 10,
+      "usuario": "21999991111"
+    }
+  ]
+}
+
+
+
 
 ## 5. Registrar avaliação
-  5.1 Front End informa um usuario (representado por seu número de telefone),  um número de reserva, um número de canoa, uma nota (número entre 0 e 10) e um comentário sobre a experiência da locação da canoa, fazendo uma chamada POST à rota /avaliar. Veja na seção abaixo como fazer a requisição.
-  5.2 Gateway faz uma chamada POST ao microsserviço de gestão de avaliações (VAAlugar-MS-avaliacoes), que deverá estar rodando na porta 5003, na rota /criar.
+  5.1 Front End informa um usuario (representado por seu número de telefone),  um número de reserva, um número de canoa, uma nota (número entre 0 e 10, mas atualmente não há qualquer tipo de validação do número) e um comentário sobre a experiência da locação da canoa, fazendo uma chamada POST à rota /avaliar. Veja na seção abaixo como fazer a requisição.
+  5.2 Gateway faz uma chamada POST ao microsserviço de gestão de avaliações (VAAlugar-MS-avaliacoes), na rota /criar.
   5.3 VAAlugar-MS-avaliacoes registra as informações no banco de dados.
   5.4 VAAlugar-MS-avaliacoes também conta o número de avaliações já registradas para a canoa informada e a médias dessas notas (essa funcionalidade já está implementada no microsserviço)
   5.5 VAAlugar-MS-avaliacoes retorna a confirmação das informações persistidas no banco junto com a contagem e média de avaliações.
-  5.6 Gateway recebe estas informações e faz uma chamada PATCH para o microsserviço VAAlugar-MS-gerir_canoas_2, que estará rodando na porta 5002, informando id_canoa, nova_média e nova_quantidade. O VAAlugar-MS-gerir_canoas_2 vai atualizar as informações da canoa.
+  5.6 Gateway recebe estas informações e faz uma chamada PATCH para o microsserviço VAAlugar-MS-gerir_canoas_2, informando id_canoa, nova_média e nova_quantidade. O VAAlugar-MS-gerir_canoas_2 vai atualizar as informações da canoa.
   5.6 Gateway retorna as informações recebidas no passo 5.5 ao Front End.
 
+### Como fazer a requisição POST à rota /avaliar:
+A estrutura da chamada post é a seguinte:
+{
+  "comentario": "string",
+  "id_canoa": 0,
+  "id_reserva": 0,
+  "nota": 0,
+  "usuario": "string"
+}
 
+Então por exemplo:
+{
+  "comentario": "Foi uma excelente experiência! Quero remar outras vezes com esta canoa.",
+  "id_canoa": 6,
+  "id_reserva": 21,
+  "nota": 10,
+  "usuario": "21999991111"
+}
+
+retorna
+
+{
+  "detalhes": {
+    "comentario": "Foi uma excelente experiência! Quero remar outras vezes com esta canoa.",
+    "id_canoa": 6,
+    "id_reserva": 21,
+    "nota": "10.0000000000",
+    "nova_media": 8.9,
+    "nova_quantidade": 2
+  },
+  "mensagem": "Avaliação registrada com sucesso."
+}
+
+
+## Instalação
+Considere as seguintes opções: instalar apenas este microsserviço, diretamente do IDE, como Visual Studio Code; ou instalar todos os microsserviços via Docker Compose.
+
+### Para rodar este MS diretamente do IDE.
+No Windows:
+1. Faça o clone deste repositório para sua máquina.
+2. Crie um ambiente virtual, com o comando "Python -m venv env", diretamente no terminal.
+3. Em seguida ative o ambiente virtual, com o comando ".\env\Scripts\activate".
+4. Instale as dependências necessárias com o comando "pip install -r requirements.txt".
+5. Execute com o comando "flask run --host 0.0.0.0 --port 5002"
+Para Mac ou Linux, a lógica é a mesma, mas faça as adaptações necessárias.
+
+Observação: este gateway se comunica com os outros microsserviços, então é necessário que os outros estejam rodando para que você possa vê-lo funcionando. Para isso, siga as instruções descritas abaixo, para fazer a instalação usando o Docker Compose. Mesmo assim, sem usar o Docker Compose, você poderá acessar o serviço de previsão do tempo e ler o schemas de comunicação entre os microsserviços.
+
+### Como executar através do Docker Compose
+Para que os microsserviços interajam, é necessário que todos estejam rodando. A forma mais fácil de instalar e executar todos está descrita no link:
+https://github.com/fabioFernandesBR/VAAlugar-Docker-Compose/blob/main/README.md
 
