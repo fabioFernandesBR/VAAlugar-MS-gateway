@@ -228,11 +228,14 @@ A chamada JSON tem a seguinte estrutura:
   "idusuario": "string"
 }
 
-Por exemplo, 
+Por exemplo,
+
 {
   "idusuario": "21999991111"
 }
+
 retorna:
+
 {
   "reservas": [
     {
@@ -255,6 +258,8 @@ retorna:
     }
   ]
 }
+
+Neste exemplo, a resposta lista 2 canoas, a canoa 1 e a canoa 6. Vemos que este usuário já postou alguma avaliação da canoa 6, com um comentário ("Excelente! Lindo visual!") e uma nota (10), e essa postagem tem um id no banco do serviço de avaliações, idpost = 22. Com relação à canoa 1, sabemos que este usuário não fez nenhuma postagem, porque os atributos comentário, idpost e nota retornam null. O front end poderá oferecer ao usuário tanto a postagem para a canoa 1, quanto a modificação da postagem da canoa 6, e para isso basta realizar o registro de avaliação, ver na seção 5 abaixo. O registro de avaliação não faz distinção, na chamada, entre uma modificação ou uma nova postagem, porém, em caso de modificação, internamente o sistema apenas atualiza a postagem, mantendo o mesmo idpost. Isso evita que um usuário faça várias postagens sobre a mesma reserva.
 
 
 
