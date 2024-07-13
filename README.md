@@ -19,10 +19,13 @@ https://docs.google.com/presentation/d/e/2PACX-1vSfXcUSCZe_cCqlOBbNcvensXv6ysZqD
 - AVALIACOES: 5004
 
 ## 1. Pesquisa por canoas:
-- 1.1 Front End informa local e tipo de canoa desejados, ambos opcionais, fazendo uma chamada POST à rota /consultacanoas. Local é string, tipo de canoa é lista de strings.Veja na seção abaixo como fazer a requisição.
-- 1.2 Gateway faz uma chamada do tipo GraphQL para o MS VAAlugar-MS-canoas.
-- 1.3 VAAlugar-MS-canoas retorna, para o gateway, 0, 1 ou mais canoas.
-- 1.4 Gateway retorna ao Front End a lista de canoas disponíveis.
+1.1. Front End informa local e tipo de canoa desejados, ambos opcionais, fazendo uma chamada POST à rota /consultacanoas. Local é string, tipo de canoa é lista de strings.Veja na seção abaixo como fazer a requisição.
+
+1.2. Gateway faz uma chamada do tipo GraphQL para o MS VAAlugar-MS-canoas.
+
+1.3. VAAlugar-MS-canoas retorna, para o gateway, 0, 1 ou mais canoas.
+
+1.4. Gateway retorna ao Front End a lista de canoas disponíveis.
 
 ### Como fazer a requisição POST à rota /consultacanoas:
 A chamada é um JSON com a seguinte estrutura:
@@ -107,10 +110,13 @@ Os parâmetros de chamada são opcionais, de modo que os seguintes exemplos são
 } ==> retorna todas as canoas cadastradas no banco de dados.
 
 ## 2. Consulta da previsão do tempo
-  2.1 Front End informa a o município e o estado onde está a canoa escolhida, fazendo uma chamada à rota /consultaprevisão. Veja na seção abaixo como fazer a requisição.
-  2.2 Gateway faz uma consulta ao site do CPTEC/INPE, buscando por município. Exemplo: http://servicos.cptec.inpe.br/XML/listaCidades?city=rio de janeiro. O retorno é um dicionário de localidade, e o gateway deverá extrair o código do município, usando a informação do estado para tomar decisão.
-  2.3 Em seguida Gateway consulta o site do CPTEC/INPE para obter a previsão do tempo para os próximos 7 dias, usando o código da localidade, identificado no passo anterior.
-  2.4 Gateway retorna ao Front End a previsão do tempo para o próximos 7 dias.
+2.1. Front End informa a o município e o estado onde está a canoa escolhida, fazendo uma chamada à rota /consultaprevisão. Veja na seção abaixo como fazer a requisição.
+
+2.2. Gateway faz uma consulta ao site do CPTEC/INPE, buscando por município. Exemplo: http://servicos.cptec.inpe.br/XML/listaCidades?city=rio de janeiro. O retorno é um dicionário de localidade, e o gateway deverá extrair o código do município, usando a informação do estado para tomar decisão.
+
+2.3. Em seguida Gateway consulta o site do CPTEC/INPE para obter a previsão do tempo para os próximos 7 dias, usando o código da localidade, identificado no passo anterior.
+
+2.4. Gateway retorna ao Front End a previsão do tempo para o próximos 7 dias.
 
 ### Como fazer a requisição POST à rota /consultaprevisao:
 A chamada é um JSON com a seguinte estrutura:
@@ -183,10 +189,13 @@ retorna:
 
 
 ## 3. Confirmação da Reserva
-  3.1 Front End informa a canoa escolhida, o usuario (representado por seu número de telefone) e um texto referente à data da locação, fazendo uma chamada POST à rota /confirmareserva. Veja na seção abaixo como fazer a requisição.
-  3.2 Gateway faz uma chamada POST ao microsserviço de gestão de reservas (VAAlugar-MS-reservas), na rota /reserva.
-  3.3 O VAAlugar-MS-reservas registra a reserva no banco de dados e retorna confirmação.
-  3.4 Gateway retorna ao Front End a confirmação da reserva.
+3.1. Front End informa a canoa escolhida, o usuario (representado por seu número de telefone) e um texto referente à data da locação, fazendo uma chamada POST à rota /confirmareserva. Veja na seção abaixo como fazer a requisição.
+
+3.2. Gateway faz uma chamada POST ao microsserviço de gestão de reservas (VAAlugar-MS-reservas), na rota /reserva.
+
+3.3. O VAAlugar-MS-reservas registra a reserva no banco de dados e retorna confirmação.
+
+3.4. Gateway retorna ao Front End a confirmação da reserva.
 
 ### Como fazer a requisição POST à rota /confirmareserva:
 A chamada é um JSON com a seguinte estrutura:
@@ -214,13 +223,15 @@ a resposta é do tipo:
 }
 
 ## 4. Listagem de Reservas
-  4.1 Front End informa um usuario (representado por seu número de telefone, como uma string), fazendo uma chamada POST à rota /listarreservas. Veja na seção abaixo como fazer a requisição.
-  4.2 Gateway faz uma chamada GET ao microsserviço de gestão de reservas (VAAlugar-MS-reservas), na rota /reservas-usuario. 
-  O retorno será uma lista de todas as reservas já feitas pelo usuário.
-  4.3 Gateway faz uma chamada GraphQL ao microsserviço de gestão de avaliações (VAAlugar-MS-avaliacoes), na rota /graphql.
-  O retorno será uma lista de todas as avaliações já feitas pelo usuário.
-  4.4 O VAAlugar-MS-reservas vai combinar estes 2 retornos, montando um JSON único contendo, para o usuário informado, todas as reservas já feitas e as respectivas avaliações, se realizadas.
-  4.5 Gateway retorna ao Front End o JSON com todas as reservas e avaliações relacionadas ao usuário informado.
+4.1. Front End informa um usuario (representado por seu número de telefone, como uma string), fazendo uma chamada POST à rota /listarreservas. Veja na seção abaixo como fazer a requisição.
+
+4.2. Gateway faz uma chamada GET ao microsserviço de gestão de reservas (VAAlugar-MS-reservas), na rota /reservas-usuario. O retorno será uma lista de todas as reservas já feitas pelo usuário.
+
+4.3. Gateway faz uma chamada GraphQL ao microsserviço de gestão de avaliações (VAAlugar-MS-avaliacoes), na rota /graphql. O retorno será uma lista de todas as avaliações já feitas pelo usuário.
+
+4.4. O VAAlugar-MS-reservas vai combinar estes 2 retornos, montando um JSON único contendo, para o usuário informado, todas as reservas já feitas e as respectivas avaliações, se realizadas.
+
+4.5. Gateway retorna ao Front End o JSON com todas as reservas e avaliações relacionadas ao usuário informado.
 
 ### Como fazer a requisição POST à rota /listarreservas:
 A chamada JSON tem a seguinte estrutura:
@@ -265,13 +276,17 @@ Neste exemplo, a resposta lista 2 canoas, a canoa 1 e a canoa 6. Vemos que este 
 
 
 ## 5. Registrar avaliação
-  5.1 Front End informa um usuario (representado por seu número de telefone, como uma string),  um número de reserva, um número de canoa, uma nota (número entre 0 e 10, mas atualmente não há qualquer tipo de validação do número) e um comentário sobre a experiência da locação da canoa, fazendo uma chamada POST à rota /avaliar. Veja na seção abaixo como fazer a requisição.
-  5.2 Gateway faz uma chamada POST ao microsserviço de gestão de avaliações (VAAlugar-MS-avaliacoes), na rota /criar.
-  5.3 VAAlugar-MS-avaliacoes registra as informações no banco de dados.
-  5.4 VAAlugar-MS-avaliacoes também conta o número de avaliações já registradas para a canoa informada e a médias dessas notas (essa funcionalidade já está implementada no microsserviço)
-  5.5 VAAlugar-MS-avaliacoes retorna a confirmação das informações persistidas no banco junto com a contagem e média de avaliações.
-  5.6 Gateway recebe estas informações e faz uma chamada PATCH para o microsserviço VAAlugar-MS-gerir_canoas_2, informando id_canoa, nova_média e nova_quantidade. O VAAlugar-MS-gerir_canoas_2 vai atualizar as informações da canoa.
-  5.6 Gateway retorna as informações recebidas no passo 5.5 ao Front End.
+5.1. Front End informa um usuario (representado por seu número de telefone, como uma string),  um número de reserva, um número de canoa, uma nota (número entre 0 e 10, mas atualmente não há qualquer tipo de validação do número) e um comentário sobre a experiência da locação da canoa, fazendo uma chamada POST à rota /avaliar. Veja na seção abaixo como fazer a requisição.
+
+5.2. Gateway faz uma chamada POST ao microsserviço de gestão de avaliações (VAAlugar-MS-avaliacoes), na rota /criar.
+
+5.3. VAAlugar-MS-avaliacoes registra as informações no banco de dados.
+
+5.4. VAAlugar-MS-avaliacoes também conta o número de avaliações já registradas para a canoa informada e a médias dessas notas (essa funcionalidade já está implementada no microsserviço)
+
+5.5. VAAlugar-MS-avaliacoes retorna a confirmação das informações persistidas no banco junto com a contagem e média de avaliações.
+
+5.6. Gateway recebe estas informações e faz uma chamada PATCH para o microsserviço VAAlugar-MS-gerir_canoas_2, informando id_canoa, nova_média e nova_quantidade. O VAAlugar-MS-gerir_canoas_2 vai atualizar as informações da canoa. Gateway retorna as informações recebidas no passo 5.5 ao Front End.
 
 ### Como fazer a requisição POST à rota /avaliar:
 A estrutura da chamada post é a seguinte:
