@@ -19,10 +19,10 @@ https://docs.google.com/presentation/d/e/2PACX-1vSfXcUSCZe_cCqlOBbNcvensXv6ysZqD
 - AVALIACOES: 5004
 
 ## 1. Pesquisa por canoas:
-1.1 Front End informa local e tipo de canoa desejados, ambos opcionais, fazendo uma chamada POST à rota /consultacanoas. Local é string, tipo de canoa é lista de strings.Veja na seção abaixo como fazer a requisição.
-1.2 Gateway faz uma chamada do tipo GraphQL para o MS VAAlugar-MS-canoas.
-1.3 VAAlugar-MS-canoas retorna, para o gateway, 0, 1 ou mais canoas.
-1.4 Gateway retorna ao Front End a lista de canoas disponíveis.
+- 1.1 Front End informa local e tipo de canoa desejados, ambos opcionais, fazendo uma chamada POST à rota /consultacanoas. Local é string, tipo de canoa é lista de strings.Veja na seção abaixo como fazer a requisição.
+- 1.2 Gateway faz uma chamada do tipo GraphQL para o MS VAAlugar-MS-canoas.
+- 1.3 VAAlugar-MS-canoas retorna, para o gateway, 0, 1 ou mais canoas.
+- 1.4 Gateway retorna ao Front End a lista de canoas disponíveis.
 
 ### Como fazer a requisição POST à rota /consultacanoas:
 A chamada é um JSON com a seguinte estrutura:
